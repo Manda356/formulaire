@@ -1,2 +1,3 @@
 # formulaire
-test
+npm install
+run dev
