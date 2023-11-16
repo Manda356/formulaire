@@ -1,37 +1,44 @@
 
 import React, {useState} from 'react';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { Box, Button, Container, FormControlLabel, TextField, Typography} from "@mui/material";
+import { Box, Button, Container, TextField, Typography} from "@mui/material";
 
-const Plateform = () => {
+const FormStyle = {
+    marginTop: 8,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+}
+const Platform = () => {
     const [ error, setError ] = useState( false )
-    const url = "http://..."
+    const url = "http://localhost:8080"
 
-    const SubmitData = async (ev: SubmitEvent)=>{
+    const SubmitData = async (ev: React.FormEvent<HTMLFormElement>)=>{
         ev.preventDefault()
 
         const form = ev.target as HTMLFormElement
         const formData = new FormData( form )
         const newData = Object.fromEntries( formData.entries() )
 
-        const phone = [...newData.phone].length < 10
+        const phone = newData.phone.length < 10
             ? "Le numero de télephone est incorecte" : true
 
         try {
 
             if( phone === true ){
-                const response = await fetch( url , {
+               const response = await fetch( url , {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ ...newData })
                 })
 
-                setError(false)
+                console.log(response)
+
                 alert("L'information est envoyer")
+                setError(false)
                 form.reset()
             }else {
-                setError(true)
                 alert( phone )
+                setError(true)
             }
 
         } catch (e) {
@@ -41,12 +48,7 @@ const Plateform = () => {
 
     return (
         <Container component="main" maxWidth="xs">
-            <Box sx={{
-                marginTop: 8,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-            }}>
+            <Box sx={ FormStyle }>
                 <Typography component="h1" variant="h5">Ma formulaire</Typography>
 
                 <Box component="form"
@@ -82,13 +84,14 @@ const Plateform = () => {
                                id="phone"
                                autoComplete="email"/>
 
-                    <Typography component="textarea"
-                                sx={{p:1, width: "95%", mt:2, borderRadius: 1}}
-                                name="message"
-                                rows={5}
-                                placeholder="Message *"
-                                type="text"
-                                id="message"/>
+                    <TextField name="message"
+                               margin="normal"
+                               multiline
+                               rows={5}
+                               fullWidth
+                               label="Message *"
+                               type="text"
+                               id="message"/>
 
                     <Button type="submit"
                             fullWidth
@@ -101,4 +104,4 @@ const Plateform = () => {
     );
 };
 
-export default Plateform;
+export default Platform;
