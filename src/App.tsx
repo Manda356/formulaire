@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
-import {RecoilRoot} from "recoil";
-import AppRoute from "./component/Routes/AppRoute";
+import React from 'react';
 import Platform from "./component/Platform";
-import Dialogue from "./component/Dialogue";
+import {RecoilRoot} from "recoil";
 
 const App = () => {
 
     return (
         <React.Fragment>
-            <Platform />
+            <RecoilRoot>
+                <Platform />
+            </RecoilRoot>
         </React.Fragment>
     );
 
